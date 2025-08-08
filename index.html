@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>STT + envío a servidor</title>
+  <style>
+    body { font: 16px system-ui, sans-serif; max-width: 720px; margin: 2rem auto; }
+    .row { display:flex; gap:.5rem; align-items:center; flex-wrap: wrap; }
+    #status { font-weight: 600; }
+    textarea { width:100%; min-height: 10rem; }
+    button { padding:.6rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Reconocimiento de voz → servidor</h1>
+
+  <div class="row">
+    <label>Idioma: 
+      <select id="lang">
+        <option value="es-UY">es-UY (Uruguay)</option>
+        <option value="es-AR">es-AR (Argentina)</option>
+        <option value="es-ES">es-ES (España)</option>
+        <option value="pt-BR">pt-BR</option>
+        <option value="en-US">en-US</option>
+      </select>
+    </label>
+
+    <label><input type="checkbox" id="autoRestart" checked> Reintentar si se corta</label>
+  </div>
+
+  <div class="row" style="margin: .5rem 0 1rem">
+    <button id="startBtn">🎙️ Empezar</button>
+    <button id="stopBtn" disabled>⏹️ Detener</button>
+    <span id="status">Inactivo</span>
+  </div>
+
+  <textarea id="transcript" placeholder="Transcripción en tiempo real…"></textarea>
+
+  <script src="main.js"></script>
+</body>
+</html>
