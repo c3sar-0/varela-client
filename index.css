@@ -1,0 +1,18 @@
+:root { --bg: url("media/Varela_1.jpg"); }
+
+html, body { height: 100%; }
+
+/* capa fija detrás de todo */
+body {
+  position: relative; /* crea contexto para el ::before */
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.25)),
+    var(--bg) center / cover no-repeat;
+  z-index: -1;
+  pointer-events: none;
+}
