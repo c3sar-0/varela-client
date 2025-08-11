@@ -40,6 +40,13 @@
   </div>
 
   <textarea id="transcript" placeholder="Transcripción en tiempo real…"></textarea>
+  <button id="tts-play">▶️ Play</button>
+<button id="tts-pause">⏸️ Pause</button>
+<button id="tts-resume">▶️ Resume</button>
+<button id="tts-stop">⏹️ Stop</button>
+<select id="tts-voice"></select>
+<label>Rate <input id="tts-rate" type="range" min="0.5" max="1.5" value="1" step="0.1"></label>
+<label>Pitch <input id="tts-pitch" type="range" min="0.5" max="1.5" value="1" step="0.1"></label>
 
   <script src="main.js"></script>
 </body>
