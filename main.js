@@ -83,7 +83,7 @@ function initRecognition() {
               // document.querySelector("#answer").textContent = data.output;
               window.LAST_TTS_TEXT = data.output; // <-- guardar para TTS
               console.log(data);
-              response.textContent = ´${data.output}\nReferencias: ${data.references}´;
+              response.textContent = `${data.output}\nReferencias: ${data.references}`;
               speak(data.output);
               received.style.display = "inline";
             }
