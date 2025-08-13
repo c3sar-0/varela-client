@@ -1,53 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="index.css" />
-  <title>STT + envío a servidor</title>
-  <style>
-    body { font: 16px system-ui, sans-serif; max-width: 720px; margin: 2rem auto; }
-    .row { display:flex; gap:.5rem; align-items:center; flex-wrap: wrap; }
-    #status { font-weight: 600; }
-    textarea { width:100%; min-height: 10rem; }
-    button { padding:.6rem 1rem; }
-  </style>
-</head>
-<body>
-  <h1>Reconocimiento de voz → servidor</h1>
-  <div>
-    <input type="text" id="hola">
-  </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="index.css" />
+    <title>STT + envío a servidor</title>
+    <style>
+      body {
+        font: 16px system-ui, sans-serif;
+        max-width: 720px;
+        margin: 2rem auto;
+      }
+      .row {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      #status {
+        font-weight: 600;
+      }
+      textarea {
+        width: 100%;
+        min-height: 10rem;
+      }
+      button {
+        padding: 0.6rem 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reconocimiento de voz → servidor</h1>
+    <div>
+      <input type="text" id="hola" />
+    </div>
 
-  <div class="row">
-    <label>Idioma: 
-      <select id="lang">
-        <option value="es-UY">es-UY (Uruguay)</option>
-        <option value="es-AR">es-AR (Argentina)</option>
-        <option value="es-ES">es-ES (España)</option>
-        <option value="pt-BR">pt-BR</option>
-        <option value="en-US">en-US</option>
-      </select>
-    </label>
+    <div class="row">
+      <label
+        >Idioma:
+        <select id="lang">
+          <option value="es-UY">es-UY (Uruguay)</option>
+          <option value="es-AR">es-AR (Argentina)</option>
+          <option value="es-ES">es-ES (España)</option>
+          <option value="pt-BR">pt-BR</option>
+          <option value="en-US">en-US</option>
+        </select>
+      </label>
 
-    <label><input type="checkbox" id="autoRestart" checked> Reintentar si se corta</label>
-  </div>
+      <label
+        ><input type="checkbox" id="autoRestart" checked /> Reintentar si se
+        corta</label
+      >
+    </div>
 
-  <div class="row" style="margin: .5rem 0 1rem">
-    <button id="startBtn">🎙️ Empezar</button>
-    <button id="stopBtn" disabled>⏹️ Detener</button>
-    <span id="status">Inactivo</span>
-  </div>
+    <div class="row" style="margin: 0.5rem 0 1rem">
+      <button id="startBtn">🎙️ Empezar</button>
+      <button id="stopBtn" disabled>⏹️ Detener</button>
+      <span id="status">Inactivo</span>
+    </div>
+    <h3 id="sending" style="display: none">Enviando al servidor</h3>
+    <h3 id="received" style="display: none">¡Se recibió una respuesta!</h3>
+    <textarea
+      id="transcript"
+      placeholder="Transcripción en tiempo real…"
+    ></textarea>
+    <textarea id="response" placeholder="Respuesta del servidor..."></textarea>
+    <button id="tts-play">▶️ Play</button>
+    <button id="tts-pause">⏸️ Pause</button>
+    <button id="tts-resume">▶️ Resume</button>
+    <button id="tts-stop">⏹️ Stop</button>
+    <select id="tts-voice"></select>
+    <label
+      >Rate
+      <input
+        id="tts-rate"
+        type="range"
+        min="0.5"
+        max="1.5"
+        value="1"
+        step="0.1"
+    /></label>
+    <label
+      >Pitch
+      <input
+        id="tts-pitch"
+        type="range"
+        min="0.5"
+        max="1.5"
+        value="1"
+        step="0.1"
+    /></label>
 
-  <textarea id="transcript" placeholder="Transcripción en tiempo real…"></textarea>
-  <button id="tts-play">▶️ Play</button>
-<button id="tts-pause">⏸️ Pause</button>
-<button id="tts-resume">▶️ Resume</button>
-<button id="tts-stop">⏹️ Stop</button>
-<select id="tts-voice"></select>
-<label>Rate <input id="tts-rate" type="range" min="0.5" max="1.5" value="1" step="0.1"></label>
-<label>Pitch <input id="tts-pitch" type="range" min="0.5" max="1.5" value="1" step="0.1"></label>
-
-  <script src="main.js"></script>
-</body>
+    <script src="main.js" type="module"></script>
+  </body>
 </html>

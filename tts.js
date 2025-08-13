@@ -1,9 +1,7 @@
-const synth = window.speechSynthesis;
-
 function getVoicesES() {
-  return synth.getVoices().filter(v =>
-    (v.lang || "").toLowerCase().startsWith("es")
-  );
+  return synth
+    .getVoices()
+    .filter((v) => (v.lang || "").toLowerCase().startsWith("es"));
 }
 
 // Rellena el selector de voces (cuando cargan)
@@ -24,17 +22,11 @@ function populateVoices() {
     sel.appendChild(opt);
   }
 }
-populateVoices();
-if (typeof speechSynthesis !== "undefined") {
-  speechSynthesis.onvoiceschanged = populateVoices;
-}
 
 // Troceo seguro (frases ~200–250 chars)
 function chunkText(text, maxLen = 240) {
   const parts = [];
-  const sentences = text
-    .replace(/\s+/g, " ")
-    .split(/(?<=[\.\?\!…;:])\s+/);
+  const sentences = text.replace(/\s+/g, " ").split(/(?<=[\.\?\!…;:])\s+/);
 
   let cur = "";
   for (const s of sentences) {
@@ -48,9 +40,10 @@ function chunkText(text, maxLen = 240) {
         // Partir frases muuuy largas por comas o a trozos
         let tmp = s;
         while (tmp.length > maxLen) {
-          const cut = tmp.lastIndexOf(",", maxLen) > 80
-            ? tmp.lastIndexOf(",", maxLen)
-            : maxLen;
+          const cut =
+            tmp.lastIndexOf(",", maxLen) > 80
+              ? tmp.lastIndexOf(",", maxLen)
+              : maxLen;
           parts.push(tmp.slice(0, cut));
           tmp = tmp.slice(cut);
         }
@@ -64,10 +57,10 @@ function chunkText(text, maxLen = 240) {
 
 function getSelectedVoice() {
   const name = document.getElementById("tts-voice").value;
-  return synth.getVoices().find(v => v.name === name) || null;
+  return synth.getVoices().find((v) => v.name === name) || null;
 }
 
-function speak(text) {
+export function speak(text) {
   // cancelar lo anterior si había algo
   synth.cancel();
 
@@ -91,30 +84,24 @@ function speak(text) {
   });
 }
 
-// Controles
-document.getElementById("tts-play").onclick = () => {
-  // iOS/Safari requiere gesto del usuario antes de la 1ª reproducción
-  // este botón ya lo cumple; si querés, podés hacer un primer utter corto.
-  const text = window.LAST_TTS_TEXT || "No hay texto para leer.";
-  speak(text);
-};
-document.getElementById("tts-pause").onclick = () => synth.pause();
-document.getElementById("tts-resume").onclick = () => synth.resume();
-document.getElementById("tts-stop").onclick = () => synth.cancel();
+var synth = window.speechSynthesis;
+export function initTts() {
+  console.log("Starting tts...");
+  if (!synth) return;
+  if (synth.onvoiceschanged) synth.onvoiceschanged = populateVoices;
+  populateVoices();
+  if (typeof speechSynthesis !== "undefined") {
+    speechSynthesis.onvoiceschanged = populateVoices;
+  }
 
-// Llamalo cuando recibas la respuesta del /rag:
-async function askRag(question) {
-  const res = await fetch(API_URL + "/rag", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${API_TOKEN}`,
-    },
-    body: JSON.stringify({ question }),
-  });
-  const data = await res.json(); // { output, sources }
-  document.querySelector("#answer").textContent = data.output;
-  window.LAST_TTS_TEXT = data.output;      // <-- guardar para TTS
-  // si querés auto-leer apenas llega:
-  // speak(data.output);
+  // Controles
+  document.getElementById("tts-play").onclick = () => {
+    // iOS/Safari requiere gesto del usuario antes de la 1ª reproducción
+    // este botón ya lo cumple; si querés, podés hacer un primer utter corto.
+    const text = window.LAST_TTS_TEXT || "No hay texto para leer.";
+    speak(text);
+  };
+  document.getElementById("tts-pause").onclick = () => synth.pause();
+  document.getElementById("tts-resume").onclick = () => synth.resume();
+  document.getElementById("tts-stop").onclick = () => synth.cancel();
 }
